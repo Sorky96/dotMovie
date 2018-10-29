@@ -1,0 +1,29 @@
+﻿<style>
+
+    textarea.form-control {
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    form {
+        margin-left: 30%;
+        align-items: center
+    }
+</style>
+
+
+
+<div class="jumbotron">
+  
+    <textarea class="form-control" rows="6">@ViewBag.GeneratedLink</textarea>
+    
+    <h4>Plik: @ViewBag.FileName o rozmiarze @ViewBag.FileSize jest gotowy do pobrania </h4>
+
+    <form class="form-inline" action="/home/Downloader?">
+        <input type="text" name="GetUrl" class="form-control" placeholder="link rapidu.net">
+        <input class="btn btn-default" type="submit" value="Wygeneruj">
+    </form>
+
+</div>
+
+

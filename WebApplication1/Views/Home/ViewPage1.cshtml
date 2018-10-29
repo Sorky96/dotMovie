@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "IMDB Database";
+}
+<style>
+    .list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+        .list li {
+            padding: 10px;
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .list li:last-child {
+                border: 0;
+            }
+
+            .list li:hover {
+                background-color: #fff;
+            }
+
+            .list li:nth-child(odd) {
+                background-color: #bdf6e9;
+            }
+
+    html, body {
+        height: 100%;
+        font-size: 100%;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color: #eee;
+    }
+
+    .movie-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        width: 600px;
+        box-sizing: border-box;
+        color: #212121;
+        font-family: Roboto, sans-serif;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    }
+
+    .movie-card__header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        height: 175px;
+        padding: 16px;
+        box-sizing: inherit;
+        background-position: 50% 20%;
+        background-size: cover;
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    }
+
+    .movie-card_genre {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 1;
+        background-color: #f5f5f5;
+        border-radius: 1rem;
+        box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    }
+
+        .movie-card_genre + .movie-card_genre {
+            margin-left: 8px;
+        }
+
+    .movie-card_content {
+        padding: 16px;
+        box-sizing: inherit;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.25;
+    }
+
+        .movie-card_content p {
+            marging: 0 0 8px;
+        }
+
+            .movie-card_content p strong {
+                font-weight: 500;
+            }
+
+    .movie-card__poster {
+        float: left;
+        height: 200px;
+        width: 135px;
+        box-sizing: inherit;
+        margin-top: -116px;
+        margin-bottom: 8px;
+        margin-right: 16px;
+        background-position: center;
+        background-size: cover;
+        box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+    }
+
+    .movie-card__title {
+        margin: 0 0 8px;
+        box-sizing: inherit;
+        font-size: 1.25rem;
+        font-weight: 300;
+        line-height: 1.25rem;
+    }
+</style>
+
+
+
+@ViewBag.Test
+
+<div class="movie-card">
+    <div class="movie-card__header" style="background-image: url(@ViewBag.Poster)">
+        <span class="movie-card_genre">@ViewBag.Genre</span>
+    </div>
+    <div class="movie-card_content">
+        <div class="movie-card__poster" style="background-image: url(@ViewBag.Poster)"></div>
+        <h3 class="movie-card__title">@ViewBag.MovieTitle (@ViewBag.Year)</h3>
+        <p><b>Director:</b> @ViewBag.Director</p>
+        <p><b>Stars:</b>@ViewBag.Actors</p>
+        <p><b>Metascore:</b>  @ViewBag.Metascore</p>
+        <p><b>IMDB Rating:</b>  @ViewBag.Imdbrating</p>
+        <p><b>Duration:</b>  @ViewBag.Duration</p>
+        <p><b>Date of release:</b>  @ViewBag.Released</p>
+        <p>
+            @ViewBag.Plot
+        </p>
+
+
+    </div>
+</div>
+Wyszukiwanie filmów na rapidu zostanie dodane wkrótce... :)
