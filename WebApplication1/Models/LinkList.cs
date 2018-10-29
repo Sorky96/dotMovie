@@ -9,11 +9,11 @@ namespace WebApplication1.Models
     {
         static List<string> name = new List<string>();
         static List<string> generatedLink = new List<string>();
-        static List<int> fileSize = new List<int>();
+        static List<string> fileSize = new List<string>();
         static List<string> date = new List<string>();
 
 
-        static void AddLinkTolist(string fileName, int size, string link, string dateLink)
+        static public void AddLinkTolist(string fileName, string size, string link, string dateLink)
         {
             Delete20();
             name.Add(fileName);
@@ -24,7 +24,10 @@ namespace WebApplication1.Models
 
         static void Delete20()
         {
-
+            name.RemoveAt(19);
+            generatedLink.RemoveAt(19);
+            fileSize.RemoveAt(19);
+            date.RemoveAt(19);
         }
     }
 }

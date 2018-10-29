@@ -225,6 +225,7 @@
     <Content Include="Views\Home\ViewPage1.cshtml" />
     <Content Include="Views\Home\Movies.cshtml" />
     <Content Include="Views\Home\Downloader.cshtml" />
+    <Content Include="Views\Home\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
