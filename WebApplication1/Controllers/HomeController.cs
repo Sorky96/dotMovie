@@ -12,9 +12,9 @@ namespace WebApplication1.Controllers
         public ActionResult ViewPage1(string title)
         {
             OMDB_api imdb = new OMDB_api();
-            
-            
 
+
+            
             imdb.GetMovieInfoFromOmbd(title);
             
             ViewBag.MovieTitle = imdb.title;
@@ -65,6 +65,9 @@ namespace WebApplication1.Controllers
 
         public ActionResult About()
         {
+            
+
+                ViewBag.test = LinkList.name.ToString();
            return View();
         }
         

@@ -7,7 +7,7 @@ namespace WebApplication1.Models
 {
     static public class LinkList
     {
-        static List<string> name = new List<string>();
+        static public List<string> name = new List<string>();
         static List<string> generatedLink = new List<string>();
         static List<string> fileSize = new List<string>();
         static List<string> date = new List<string>();
@@ -24,10 +24,13 @@ namespace WebApplication1.Models
 
         static void Delete20()
         {
-            name.RemoveAt(19);
-            generatedLink.RemoveAt(19);
-            fileSize.RemoveAt(19);
-            date.RemoveAt(19);
+            if (name.Count > 20)
+            {
+                name.RemoveAt(19);
+                generatedLink.RemoveAt(19);
+                fileSize.RemoveAt(19);
+                date.RemoveAt(19);
+            }
         }
     }
 }

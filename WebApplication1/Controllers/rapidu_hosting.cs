@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
         
         string formUrl = @"https://rapidu.net/ajax.php?a=getUserLogin"; // NOTE: This is the URL the form POSTs to, not the URL of the form (you can find this in the "action" attribute of the HTML's form tag
         static string login = "";
-        static string password = "";
+        static string password = "f4@@";
         string formParams = string.Format("login="+login+"&pass="+password+"&remember=1&_go=");
 
         public string cookieHeader;
