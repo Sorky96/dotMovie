@@ -13,24 +13,31 @@ namespace WebApplication1.Controllers
 
     public class Hostings
     {
-        
+        public Hostings()
+            {
+                LoginIntoSite();
+                GetTransferLeft();
+            }
+
         string formUrl = @"https://rapidu.net/ajax.php?a=getUserLogin"; // NOTE: This is the URL the form POSTs to, not the URL of the form (you can find this in the "action" attribute of the HTML's form tag
-        static string login = "";
-        static string password = "f4@@";
+        static string login = "mojerapidu520";
+        static string password = "md7ggll2";
+
+        //Params that browser send to the server. Use ex. HTTP Header Live to get that Params
         string formParams = string.Format("login="+login+"&pass="+password+"&remember=1&_go=");
 
-        public string cookieHeader;
+        private string cookieHeader;
         public string GeneratedLink;
         public string getUrl;
         public string fileName;
         public string fileSize;
         public string premiumEnd;
         public string premiumLeft;
-        public string responseString;
-       
+        
 
 
-        public void Loginner()
+
+        public void LoginIntoSite()
         {
             WebRequest req = WebRequest.Create(formUrl);
             req.ContentType = "application/x-www-form-urlencoded";
@@ -53,7 +60,7 @@ namespace WebApplication1.Controllers
 
       
 
-        public void GetDownloadLinkv2(string getUrl)
+        public void GetDownloadLink(string getUrl)
         {
 
             var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getFileDownload/");
@@ -81,11 +88,11 @@ namespace WebApplication1.Controllers
 
         }
 
-        public void GetFileInfo(string url)
+        private void GetFileInfo(string url = "id=9125399406")
         {
             var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getFileDetails/");
 
-            var postData = "id=9125399406";
+            var postData = "id=" + url;
             var data = Encoding.ASCII.GetBytes(postData);
 
             request.Method = "POST";

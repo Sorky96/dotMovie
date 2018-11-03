@@ -17,6 +17,7 @@ namespace WebApplication1.Controllers
             
             imdb.GetMovieInfoFromOmbd(title);
             
+
             ViewBag.MovieTitle = imdb.title;
             ViewBag.Plot = imdb.plot;
             ViewBag.Year = imdb.year;
@@ -29,7 +30,7 @@ namespace WebApplication1.Controllers
             ViewBag.Duration = imdb.duration;
             ViewBag.Genre = imdb.genre;
             ViewBag.Actors = imdb.actors;
-            
+
             
 
             return View();
@@ -39,10 +40,10 @@ namespace WebApplication1.Controllers
         public ActionResult Index()
         {
             Hostings rapidu = new Hostings();
-            rapidu.GetTransferLeft();
+            rapidu.GetTransferLeft();           
             ViewBag.premiumEndDate = rapidu.premiumEnd;
             ViewBag.premiumLeft = rapidu.premiumLeft;
-
+            
             return View();
         }
 
@@ -50,8 +51,8 @@ namespace WebApplication1.Controllers
         {
             
             Hostings rapidu = new Hostings();            
-            rapidu.Loginner();
-            rapidu.GetDownloadLinkv2(getUrl);
+            rapidu.LoginIntoSite();
+            rapidu.GetDownloadLink(getUrl);
 
            
             
@@ -60,6 +61,7 @@ namespace WebApplication1.Controllers
             ViewBag.FileName = rapidu.fileName;
             ViewBag.FileSize = rapidu.fileSize;
             LinkList.AddLinkTolist(rapidu.fileName, rapidu.fileSize, rapidu.GeneratedLink, Convert.ToString(DateTime.Now));
+           
             return View();
         }
 
@@ -71,7 +73,7 @@ namespace WebApplication1.Controllers
            return View();
         }
         
-        public ActionResult Contact()
+        public ActionResult Generated()
         {
             ViewBag.Message = "Your contact page.";
 

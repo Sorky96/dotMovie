@@ -8,11 +8,12 @@ namespace WebApplication1.Models
     static public class LinkList
     {
         static public List<string> name = new List<string>();
-        static List<string> generatedLink = new List<string>();
-        static List<string> fileSize = new List<string>();
-        static List<string> date = new List<string>();
-
-
+        static public List<string> generatedLink = new List<string>();
+        static public List<string> fileSize = new List<string>();
+        static public List<string> date = new List<string>();
+        
+      
+        
         static public void AddLinkTolist(string fileName, string size, string link, string dateLink)
         {
             Delete20();
@@ -32,5 +33,6 @@ namespace WebApplication1.Models
                 date.RemoveAt(19);
             }
         }
+        
     }
 }
