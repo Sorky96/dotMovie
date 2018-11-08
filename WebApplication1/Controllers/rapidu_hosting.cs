@@ -20,8 +20,8 @@ namespace WebApplication1.Controllers
             }
 
         string formUrl = @"https://rapidu.net/ajax.php?a=getUserLogin"; // NOTE: This is the URL the form POSTs to, not the URL of the form (you can find this in the "action" attribute of the HTML's form tag
-        static string login = "mojerapidu520";
-        static string password = "md7ggll2";
+        static string login = "";
+        static string password = "";
 
         //Params that browser send to the server. Use ex. HTTP Header Live to get that Params
         string formParams = string.Format("login="+login+"&pass="+password+"&remember=1&_go=");

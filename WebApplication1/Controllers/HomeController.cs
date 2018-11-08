@@ -40,9 +40,20 @@ namespace WebApplication1.Controllers
         public ActionResult Index()
         {
             Hostings rapidu = new Hostings();
-            rapidu.GetTransferLeft();           
-            ViewBag.premiumEndDate = rapidu.premiumEnd;
-            ViewBag.premiumLeft = rapidu.premiumLeft;
+            rapidu.GetTransferLeft();        
+            if (rapidu.premiumLeft == "0")
+            {
+                ViewBag.Info = "Brak transferu na koncie.";
+            }
+            else if (rapidu.premiumEnd == "0")
+            {
+                ViewBag.Info = "Konto premium wygaslo, generowane linki beda pobierane z predkoscia zalogowanego uzytkownika.";
+            }
+            else
+            {
+                ViewBag.Info = $"Pozostalo {rapidu.premiumLeft} transferu do {rapidu.premiumEnd}.";
+            }
+            
             
             return View();
         }
