@@ -14,17 +14,17 @@ namespace WebApplication1.Controllers
     public class Hostings
     {
         public Hostings()
-            {
-                LoginIntoSite();
-                GetTransferLeft();
-            }
+        {
+            LoginIntoSite();
+            GetTransferLeft();
+        }
 
         string formUrl = @"https://rapidu.net/ajax.php?a=getUserLogin"; // NOTE: This is the URL the form POSTs to, not the URL of the form (you can find this in the "action" attribute of the HTML's form tag
         static string login = "";
         static string password = "";
 
         //Params that browser send to the server. Use ex. HTTP Header Live to get that Params
-        string formParams = string.Format("login="+login+"&pass="+password+"&remember=1&_go=");
+        string formParams = string.Format("login=" + login + "&pass=" + password + "&remember=1&_go=");
 
         private string cookieHeader;
         public string GeneratedLink;
@@ -33,7 +33,7 @@ namespace WebApplication1.Controllers
         public string fileSize;
         public string premiumEnd;
         public string premiumLeft;
-        
+
 
 
 
@@ -51,14 +51,14 @@ namespace WebApplication1.Controllers
             }
             WebResponse resp = req.GetResponse();
             cookieHeader = resp.Headers["set-cookie"];
-            
+
 
             GetTransferLeft();
 
 
         }
 
-      
+
 
         public void GetDownloadLink(string getUrl)
         {
@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
             var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getFileDownload/");
             var url = string.Join("", getUrl.ToCharArray().Where(Char.IsDigit));
 
-            var postData = "login=" + login + "&password=" + password+"&id="+url;
+            var postData = "login=" + login + "&password=" + password + "&id=" + url;
             var data = Encoding.ASCII.GetBytes(postData);
 
             request.Method = "POST";
@@ -116,7 +116,7 @@ namespace WebApplication1.Controllers
                     fileSize = FormatBytes(Convert.ToInt64(key.fileSize));
                 }
             }
-               
+
         }
 
 
@@ -139,7 +139,7 @@ namespace WebApplication1.Controllers
         {
             var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getAccountDetails/");
 
-            var postData = "login="+login+"&password="+password;
+            var postData = "login=" + login + "&password=" + password;
             var data = Encoding.ASCII.GetBytes(postData);
 
             request.Method = "POST";
@@ -158,14 +158,14 @@ namespace WebApplication1.Controllers
 
             premiumEnd = Convert.ToString(array.userPremiumDateEnd);
             premiumLeft = FormatBytes(Convert.ToInt64(array.userTrafficDay));
-            
+
 
 
         }
 
-        
+
     }
 
- 
+
 
 }

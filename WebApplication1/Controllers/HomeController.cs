@@ -47,7 +47,7 @@ namespace WebApplication1.Controllers
             }
             else if (rapidu.premiumEnd == "0")
             {
-                ViewBag.Info = "Konto premium wygaslo, generowane linki beda pobierane z predkoscia zalogowanego uzytkownika.";
+                ViewBag.Info = $"Konto premium wygaslo, generowane linki beda pobierane z predkoscia zalogowanego uzytkownika. Pozostało transferu { rapidu.premiumLeft }";
             }
             else
             {
