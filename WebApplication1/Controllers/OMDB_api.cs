@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
         public string actors;
 
 
-        private string apikey = "&apikey=&r=xml";
+        private string apikey = "&apikey=dd85a232&r=xml";
 
 
         public void GetMovieInfoFromOmbd(string name)

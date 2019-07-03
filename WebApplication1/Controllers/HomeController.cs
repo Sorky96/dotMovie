@@ -8,10 +8,13 @@ using WebApplication1.Models;
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
-    {   
+    {
+
+        Hostings rapidu = new Hostings();
+        
         public ActionResult ViewPage1(string title)
         {
-            OMDB_api imdb = new OMDB_api();
+            var imdb = new OMDB_api();
 
 
             
@@ -39,30 +42,28 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index()
         {
-            Hostings rapidu = new Hostings();
-            rapidu.GetTransferLeft();        
+            rapidu.GetTransferLeft();  
+            
             if (rapidu.premiumLeft == "0")
             {
                 ViewBag.Info = "Brak transferu na koncie.";
+                return View();
             }
             else if (rapidu.premiumEnd == "0")
             {
                 ViewBag.Info = $"Konto premium wygaslo, generowane linki beda pobierane z predkoscia zalogowanego uzytkownika. Pozostało transferu { rapidu.premiumLeft }";
+                return View();
             }
             else
             {
                 ViewBag.Info = $"Pozostalo {rapidu.premiumLeft} transferu do {rapidu.premiumEnd}.";
+                return View();
             }
-            
-            
-            return View();
         }
 
         public ActionResult Downloader(string getUrl)
-        {
-            
-            Hostings rapidu = new Hostings();            
-            rapidu.LoginIntoSite();
+        {        
+                        
             rapidu.GetDownloadLink(getUrl);
 
            
@@ -72,7 +73,7 @@ namespace WebApplication1.Controllers
             ViewBag.FileName = rapidu.fileName;
             ViewBag.FileSize = rapidu.fileSize;
             LinkList.AddLinkTolist(rapidu.fileName, rapidu.fileSize, rapidu.GeneratedLink, Convert.ToString(DateTime.Now));
-           
+
             return View();
         }
 

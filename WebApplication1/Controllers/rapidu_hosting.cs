@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Services.Description;
+using WebApplication1.Controllers;
 
 namespace WebApplication1.Controllers
 {
@@ -14,19 +15,8 @@ namespace WebApplication1.Controllers
     public class Hostings
     {
         public Hostings()
-        {
-            LoginIntoSite();
-            GetTransferLeft();
-        }
-
-        string formUrl = @"https://rapidu.net/ajax.php?a=getUserLogin"; // NOTE: This is the URL the form POSTs to, not the URL of the form (you can find this in the "action" attribute of the HTML's form tag
-        static string login = "";
-        static string password = "";
-
-        //Params that browser send to the server. Use ex. HTTP Header Live to get that Params
-        string formParams = string.Format("login=" + login + "&pass=" + password + "&remember=1&_go=");
-
-        private string cookieHeader;
+        {}
+       
         public string GeneratedLink;
         public string getUrl;
         public string fileName;
@@ -37,36 +27,27 @@ namespace WebApplication1.Controllers
 
 
 
-        public void LoginIntoSite()
+        public void AddAllAcounts()
         {
-            WebRequest req = WebRequest.Create(formUrl);
-            req.ContentType = "application/x-www-form-urlencoded";
-            req.Method = "POST";
-            byte[] bytes = Encoding.ASCII.GetBytes(formParams);
-            req.ContentLength = bytes.Length;
-
-            using (Stream os = req.GetRequestStream())
-            {
-                os.Write(bytes, 0, bytes.Length);
-            }
-            WebResponse resp = req.GetResponse();
-            cookieHeader = resp.Headers["set-cookie"];
-
-
-            GetTransferLeft();
-
-
+            //Accounts.AddAccountToList("mojerapidu520", "md7ggll2");
+            //Accounts.AddAccountToList("businessrapidu80", "dt49nykr");
+            //Accounts.AddAccountToList("orzech74", "orzech2749");            
         }
 
 
 
         public void GetDownloadLink(string getUrl)
         {
+            int i = GetAccNumber();
 
             var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getFileDownload/");
             var url = string.Join("", getUrl.ToCharArray().Where(Char.IsDigit));
+            do
+            {
+                i = GetAccNumber();
+            } while (!CheckIfUserHaveTransfer(i, url));
 
-            var postData = "login=" + login + "&password=" + password + "&id=" + url;
+            var postData = "login=" + Accounts.logins.ElementAt(i) + "&password=" + Accounts.passwords.ElementAt(i) + "&id=" + url;
             var data = Encoding.ASCII.GetBytes(postData);
 
             request.Method = "POST";
@@ -83,12 +64,12 @@ namespace WebApplication1.Controllers
 
             dynamic array = JsonConvert.DeserializeObject(responseString);
             GeneratedLink = Convert.ToString(array.fileLocation);
-
+            
             GetFileInfo(url);
 
         }
 
-        private void GetFileInfo(string url = "id=9125399406")
+        private void GetFileInfo(string url = "id=0718263871")
         {
             var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getFileDetails/");
 
@@ -113,33 +94,56 @@ namespace WebApplication1.Controllers
                 foreach (var key in item)
                 {
                     fileName = key.fileName;
-                    fileSize = FormatBytes(Convert.ToInt64(key.fileSize));
+                    fileSize = FormatBytes(Convert.ToUInt64(key.fileSize));
                 }
             }
 
         }
 
-
-
-        private static string FormatBytes(long bytes)
-        {
-            string[] Suffix = { "B", "KB", "MB", "GB", "TB" };
-            int i;
-            double dblSByte = bytes;
-            for (i = 0; i < Suffix.Length && bytes >= 1024; i++, bytes /= 1024)
-            {
-                dblSByte = bytes / 1024.0;
-            }
-
-            return String.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
-        }
-
-
         public void GetTransferLeft()
         {
-            var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getAccountDetails/");
+            ulong valueOfTransfer = 0;
+            int i = 0;
+            premiumLeft = "";
+            foreach (var item in Accounts.logins)
+            {
+                var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getAccountDetails/");
 
-            var postData = "login=" + login + "&password=" + password;
+                var postData = "login=" + item + "&password=" + Accounts.passwords.ElementAt(i);
+                var data = Encoding.ASCII.GetBytes(postData);
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = data.Length;
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+                var response = (HttpWebResponse)request.GetResponse();
+
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+                dynamic array = JsonConvert.DeserializeObject(responseString);
+
+                valueOfTransfer += Convert.ToUInt64(array.userTrafficDay);
+
+                premiumEnd = Convert.ToString(array.userPremiumDateEnd);
+               
+                if (i++ == item.Count())
+                {
+                    break;
+                }
+                
+                    
+            }
+
+           premiumLeft = FormatBytes(valueOfTransfer);            
+        }
+
+        private ulong GetFileWeight(string fileId)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getFileDetails/");
+
+            var postData = "id=" + fileId;
             var data = Encoding.ASCII.GetBytes(postData);
 
             request.Method = "POST";
@@ -153,15 +157,68 @@ namespace WebApplication1.Controllers
             var response = (HttpWebResponse)request.GetResponse();
 
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            dynamic array = JsonConvert.DeserializeObject(responseString);
+            foreach (var item in array)
+            {
+                foreach (var key in item)
+                {
+                    
+                    return Convert.ToUInt64(key.fileSize);
+                }
+            }
+            return 0;
+        }
+        private Boolean CheckIfUserHaveTransfer(int i, string fileId)
+        {
+            ulong valueOfTransfer = 0;
+            var request = (HttpWebRequest)WebRequest.Create(@"http://rapidu.net/api/getAccountDetails/");
+
+            var postData = "login=" + Accounts.logins.ElementAt(i) + "&password=" + Accounts.passwords.ElementAt(i);
+            var data = Encoding.ASCII.GetBytes(postData);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
             dynamic array = JsonConvert.DeserializeObject(responseString);
 
-            premiumEnd = Convert.ToString(array.userPremiumDateEnd);
-            premiumLeft = FormatBytes(Convert.ToInt64(array.userTrafficDay));
-
-
-
+            valueOfTransfer = Convert.ToUInt64(array.userTrafficDay);
+            if (valueOfTransfer > GetFileWeight(fileId))
+            {
+                return true;
+            }
+            else
+                return false;
         }
+
+        private int GetAccNumber()
+        {
+            int number = 0;
+            Random rnd = new Random();
+
+            number = rnd.Next(Accounts.logins.Count());
+
+            return number;
+        }
+        private static string FormatBytes(ulong bytes)
+        {
+            string[] Suffix = { "B", "KB", "MB", "GB", "TB" };
+            int i;
+            double dblSByte = bytes;
+            for (i = 0; i < Suffix.Length && bytes >= 1024; i++, bytes /= 1024)
+            {
+                dblSByte = bytes / 1024.0;
+            }
+
+            return String.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
+        }
+
 
 
     }
